@@ -78,4 +78,8 @@ resource "azurerm_network_security_group" "practice-security-group" {
     source_port_range = "*"
     # source_port_ranges = [ "value" ]
   } ]
+
+  tags = {
+    environment = "Terraform Practice"
+  }
 }
