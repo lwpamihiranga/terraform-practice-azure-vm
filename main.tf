@@ -11,3 +11,13 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+# Create resource group
+resource "azurerm_resource_group" "practice_resource_group" {
+  name     = "terraform-resource-group"
+  location = "eastus"
+
+  tags = {
+    environment = "Terraform Practice"
+  }
+}
