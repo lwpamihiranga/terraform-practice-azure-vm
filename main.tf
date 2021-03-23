@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "practice_security_group" {
   location = azurerm_resource_group.practice_resource_group.location
   resource_group_name = azurerm_resource_group.practice_resource_group.name
 
-  security_rule = [ {
+  security_rule {
     access = "Allow"
     #description = "value"
     destination_address_prefix = "*"
@@ -77,7 +77,7 @@ resource "azurerm_network_security_group" "practice_security_group" {
     # source_application_security_group_ids = [ "value" ]
     source_port_range = "*"
     # source_port_ranges = [ "value" ]
-  } ]
+  } 
 
   tags = {
     environment = "Terraform Practice"
