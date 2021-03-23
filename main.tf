@@ -107,3 +107,12 @@ resource "azurerm_network_interface_security_group_association" "practice_connec
     network_interface_id      = azurerm_network_interface.practice_nic.id
     network_security_group_id = azurerm_network_security_group.practice_security_group.id
 }
+
+# Private SSH key
+resource "tls_private_key" "practice_ssh" {
+  algorithm = "RSA"
+  rsa_bits = 4096
+}
+
+# Display the SSH key as output
+output "tls_private_key" { value = tls_private_key.practice_ssh.private_key_pem }
