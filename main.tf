@@ -62,21 +62,14 @@ resource "azurerm_network_security_group" "practice_security_group" {
 
   security_rule {
     access = "Allow"
-    #description = "value"
     destination_address_prefix = "*"
-    # destination_address_prefixes = [ "value" ]
-    # destination_application_security_group_ids = [ "value" ]
     destination_port_range = "22"
-    # destination_port_ranges = [ "value" ]
     direction = "Inbound"
     name = "SSH"
     priority = 1001
     protocol = "TCP"
     source_address_prefix = "*"
-    # source_address_prefixes = [ "value" ]
-    # source_application_security_group_ids = [ "value" ]
     source_port_range = "*"
-    # source_port_ranges = [ "value" ]
   } 
 
   tags = {
