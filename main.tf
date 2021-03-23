@@ -116,3 +116,38 @@ resource "tls_private_key" "practice_ssh" {
 
 # Display the SSH key as output
 output "tls_private_key" { value = tls_private_key.practice_ssh.private_key_pem }
+
+# Create the VM
+resource "azurerm_linux_virtual_machine" "practice_vm" {
+  name = "terraform-vm"
+  location = azurerm_resource_group.practice_resource_group.location
+  resource_group_name = azurerm_resource_group.practice_resource_group.name
+  network_interface_ids = [ azurerm_network_interface.practice_nic.id ]
+  size = "Standard_B1s"
+
+  os_disk {
+    name = "terraform-disk"
+    caching = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer = "UbuntuServer"
+    sku = "18.04-LTS"
+    version = "latest"
+  }
+
+  computer_name = "terraform-ubuntu-server"
+  admin_username = "amith"
+  disable_password_authentication = true
+
+  admin_ssh_key {
+    username = "amith"
+    public_key = tls_private_key.practice_ssh.public_key_openssh
+  }
+
+  tags = {
+    environment = "Terraform Demo"
+  }
+}
