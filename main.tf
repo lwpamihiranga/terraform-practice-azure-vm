@@ -55,7 +55,7 @@ resource "azurerm_public_ip" "practice_public_ip" {
 }
 
 # Create network security group
-resource "azurerm_network_security_group" "practice-security-group" {
+resource "azurerm_network_security_group" "practice_security_group" {
   name = "terraform-security-group"
   location = azurerm_resource_group.practice_resource_group.location
   resource_group_name = azurerm_resource_group.practice_resource_group.name
@@ -82,4 +82,28 @@ resource "azurerm_network_security_group" "practice-security-group" {
   tags = {
     environment = "Terraform Practice"
   }
+}
+
+# Create virtual network interface card
+resource "azurerm_network_interface" "practice_nic" {
+  name = "terraform-nic"
+  location = azurerm_resource_group.practice_resource_group.location
+  resource_group_name = azurerm_resource_group.practice_resource_group.name
+
+  ip_configuration {
+    name = "terraform-nic-config"
+    subnet_id = azurerm_subnet.practice_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.practice_public_ip.id
+  }
+
+  tags = {
+    environment = "Terraform Practice"
+  }
+}
+
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "practice_connection" {
+    network_interface_id      = azurerm_network_interface.practice_nic.id
+    network_security_group_id = azurerm_network_security_group.practice_security_group.id
 }
