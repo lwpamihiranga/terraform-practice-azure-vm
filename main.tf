@@ -33,3 +33,11 @@ resource "azurerm_virtual_network" "practice_network" {
     environment = "Terraform Practice"
   }
 }
+
+# Create subnet in the virtual network
+resource "azurerm_subnet" "practice_subnet" {
+  name                  = "terraform-subnet"
+  resource_group_name   = azurerm_resource_group.practice_resource_group.name
+  virtual_network_name  = azurerm_virtual_network.practice_network.name
+  address_prefixes      = [ "10.0.2.0/24" ]
+}
